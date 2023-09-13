@@ -46,6 +46,29 @@ window.addEventListener('load', (event) => {
     card.addEventListener('click', () => {
       // TODO: write some code here
       console.log(`Card clicked: ${card}`);
+      card.classList.add('turned');
+
+      // Add the clicked card to the pickedCards array
+      memoryGame.pickedCards.push(card);
+  
+      // Check if two cards are picked
+      if (memoryGame.pickedCards.length === 2) {
+        // Check if the two picked cards form a pair
+        const [card1, card2] = memoryGame.pickedCards;
+        memoryGame.checkIfPair(card1, card2);
+  
+        // Clear the pickedCards array for the next turn
+        memoryGame.pickedCards = [];
+  
+        setTimeout(() => {
+          if (!memoryGame.isPair(card1, card2)) {
+            // Cards do not form a pair, flip them back
+            card1.classList.remove('turned');
+            card2.classList.remove('turned');
+          }
+        }, 1000);
+      }
     });
   });
-});
+  
+})
